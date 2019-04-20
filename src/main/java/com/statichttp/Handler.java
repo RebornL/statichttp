@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class Handler implements Runnable {
-    public String encoding = "UTF-8";
+
     private Socket client;
     private Request request;
     private Response response;
@@ -50,7 +50,7 @@ public class Handler implements Runnable {
                     }
                 } else {
                     this.response.Response404();
-                } // file.exists
+                }
             } catch (Exception e) {
                 System.out.println("HTTP服务器错误:" + e.getLocalizedMessage());
             } finally {

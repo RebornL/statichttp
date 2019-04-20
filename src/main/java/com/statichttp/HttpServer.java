@@ -20,18 +20,6 @@ public class HttpServer {
 
     private static final ExecutorService EXECUTOR = new ThreadPoolExecutor(30, 100, 30, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(30));
 
-//    public static void main(String[] args) {
-//        //初始化读取配置文件
-//        ReadProperties();
-//
-//        try {
-//            StartAndRunServer();
-//        } catch (IOException e) {
-//            System.out.println("服务器启动出错！");
-//            e.printStackTrace();
-//        }
-//
-//    }
     static {
         ReadProperties();
     }

@@ -9,18 +9,16 @@ import java.util.zip.GZIPOutputStream;
 
 public class Response {
 
-    private static final int BUFFER_SIZE = 1024;
-    Request request;
+    private String encoding = "UTF-8";
     OutputStream outputStream;
 
     public Response(OutputStream outputStream) {
-
         this.outputStream = outputStream;
     }
 
 
     public void sendData(File file, String contentType, String md5) throws IOException {
-        PrintStream out = new PrintStream(outputStream, true);
+        PrintStream out = new PrintStream(this.outputStream, true);
         FileInputStream fis = new FileInputStream(file);
         byte data[] = new byte[fis.available()];
         fis.read(data);
@@ -31,9 +29,9 @@ public class Response {
         byte[] gzipData = bout.toByteArray();
 
         out.println("HTTP/1.1 200 OK");
-        out.println("Content-Type: " + contentType + ";charset=UTF-8");
+        out.println("Content-Type: " + contentType + ";charset=" + encoding);
         out.println("Content-Length: " + gzipData.length);
-        out.println("Content-Encoding: gzip");//
+        out.println("Content-Encoding: gzip");
         out.println("Cache-Control: max-age=1234567, private, must-revalidate");
 //            out.println("Cache-Control: no-cache");
         out.println("Last-Modified: "+new Date(file.lastModified()));
@@ -47,7 +45,7 @@ public class Response {
     }
 
     public void response304() {
-        PrintStream out = new PrintStream(outputStream, true);
+        PrintStream out = new PrintStream(this.outputStream, true);
         out.println("HTTP/1.1 304 Not Modified");
         out.println();
         out.close();
