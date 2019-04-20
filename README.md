@@ -17,6 +17,8 @@
 - Request.java：Request响应封装
 - Response.java：Response响应封装
 - Handler.java：处理类
+- MIME.java：MIME类型封装
+- MD5Util.java：参考别人的md5生成类
 
 ## 截图
 
