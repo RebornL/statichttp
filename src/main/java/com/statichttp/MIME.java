@@ -3,7 +3,7 @@ package com.statichttp;
 import java.util.HashMap;
 
 public class MIME {
-    private static final HashMap<String, String> mime = new HashMap<String, String>();
+    private static final HashMap<String, String> mime = new HashMap<>();
 
     static {
         mime.put("css", "text/css");

@@ -7,13 +7,15 @@ import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Handler implements Runnable {
+    // 用来缓存已经被请求过的文件的md5值
+    private static ConcurrentHashMap<String, String> File2Md5 = new ConcurrentHashMap<>();
 
     private Socket client;
     private Request request;
     private Response response;
-    private static HashMap<String, String> File2Md5 = new HashMap<>();
 
     public Handler(Socket client, Request request, Response response) {
         this.client = client;
