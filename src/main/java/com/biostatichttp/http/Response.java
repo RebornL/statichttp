@@ -1,9 +1,6 @@
-package com.statichttp;
+package com.biostatichttp.http;
 
 import java.io.*;
-import java.net.Socket;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 

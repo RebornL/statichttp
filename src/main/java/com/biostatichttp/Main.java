@@ -1,4 +1,4 @@
-import com.statichttp.HttpServer;
+package com.biostatichttp;
 
 import java.io.IOException;
 

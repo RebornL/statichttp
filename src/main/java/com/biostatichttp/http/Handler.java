@@ -1,12 +1,16 @@
-package com.statichttp;
+package com.biostatichttp.http;
+
+import com.biostatichttp.HttpServer;
+import com.biostatichttp.http.Request;
+import com.biostatichttp.http.Response;
+import com.biostatichttp.utils.MD5Util;
+import com.biostatichttp.utils.MIME;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Handler implements Runnable {

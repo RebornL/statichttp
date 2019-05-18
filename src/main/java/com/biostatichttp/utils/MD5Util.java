@@ -1,4 +1,4 @@
-package com.statichttp;
+package com.biostatichttp.utils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

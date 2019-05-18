@@ -1,4 +1,8 @@
-package com.statichttp;
+package com.biostatichttp;
+
+import com.biostatichttp.http.Handler;
+import com.biostatichttp.http.Request;
+import com.biostatichttp.http.Response;
 
 import java.io.File;
 import java.io.IOException;

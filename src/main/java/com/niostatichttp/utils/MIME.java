@@ -1,9 +1,9 @@
-package com.statichttp;
+package com.niostatichttp.utils;
 
 import java.util.HashMap;
 
 public class MIME {
-    private static final HashMap<String, String> mime = new HashMap<>();
+    private static final HashMap<String, String> mime = new HashMap<String, String>();
 
     static {
         mime.put("css", "text/css");
