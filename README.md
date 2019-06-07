@@ -30,7 +30,7 @@ niostatichttp包展示：文件说明基本同上，所不同的是，内部实�
 
 ![](https://raw.githubusercontent.com/RebornL/picbed/master/20190518202511.png)
 
-niostatichttpmt包展示：
+niostatichttpmt包展示：加入多Selector和线程池操作
 
 ![](https://raw.githubusercontent.com/RebornL/picbed/master/20190518203011.png)
 
@@ -69,6 +69,6 @@ niostatichttpmt包展示：
 
   - niostatichttp：使用NIO实现，IO多路复用的模式，简单的理解NIO中这几个组件的作用，Selector负责接收客户端请求，Channel负责客户端和服务端信息交互，Buffer用于存放数据
 
-  - niostatichttpmt：使用NIO加线程池和多Selector（分成Boss，负责接收请求和Worker，负责处理请求）实现，读了很多文章，发现[这篇文章](https://my.oschina .net/u/3768341/blog/1814575)写的最好，作者抽象封装的能力很强，而且写出来比我原来自己的写的版本好看很多，于是仿照这个作者的模式重写一遍。
+  - niostatichttpmt：使用NIO加线程池和多Selector（分成Boss，负责接收请求和Worker，负责处理请求）实现，读了很多文章，发现[这篇文章](https://my.oschina.net/u/3768341/blog/1814575)写的最好，作者抽象封装的能力很强，而且写出来比我原来自己的写的版本好看很多，于是仿照这个作者的模式重写一遍。
 
     > 有一个奇怪的问题，就是加入线程池和多Selector之后，有时候响应并没有那么快，很奇怪，还没查出来什么原因。
