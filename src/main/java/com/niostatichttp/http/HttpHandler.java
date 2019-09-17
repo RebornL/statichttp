@@ -38,10 +38,10 @@ public class HttpHandler {
         try {
             request.parse();
         } catch (IOException e) {
-            System.out.println(LocalDateTime.now()+": 解析Request的信息出错");
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 解析Request的信息出错");
             e.printStackTrace();
         }
-        System.out.println(LocalDateTime.now() + ": " + getUri());
+        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": " + getUri());
         connectionKey.interestOps(SelectionKey.OP_WRITE);
     }
 
@@ -56,9 +56,9 @@ public class HttpHandler {
                     try {
                         md5 = MD5Util.md5HashCode32(filePath.toString());
                         Property.FILE2MD5.put(getUri(), md5);
-                        System.out.println(LocalDateTime.now()+": 将"+getUri().substring(1)+"的md5("+md5+")添加到FILE2MD5中");
+                        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 将"+getUri().substring(1)+"的md5("+md5+")添加到FILE2MD5中");
                     } catch (FileNotFoundException e) {
-                        System.out.println(LocalDateTime.now()+": 生成md5失败");
+                        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 生成md5失败");
                         e.printStackTrace();
                     }
                 }
@@ -72,11 +72,11 @@ public class HttpHandler {
                 // 当文件被修改时
                 String md5Temp = MD5Util.md5HashCode32(filePath.toString());
                 if (md5Temp.equals(md5)) {
-                    System.out.println(LocalDateTime.now()+": "+getUri().substring(1)+"的md5("+md5+")没有变化，只更新modified的时间");
+                    System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": "+getUri().substring(1)+"的md5("+md5+")没有变化，只更新modified的时间");
                     response.sendData(filePath, MIME.getContentType(getSuffix()), md5, filePath.toFile().lastModified());
                 } else {
                     Property.FILE2MD5.put(getUri(), md5Temp); // 更新md5的值
-                    System.out.println(LocalDateTime.now()+": "+getUri().substring(1)+"的md5("+md5Temp+")发生变化，更新modified的时间和ETag的值");
+                    System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": "+getUri().substring(1)+"的md5("+md5Temp+")发生变化，更新modified的时间和ETag的值");
                     response.sendData(filePath, MIME.getContentType(getSuffix()), md5Temp, filePath.toFile().lastModified());
 
                 }
@@ -95,10 +95,10 @@ public class HttpHandler {
             socketAddress = socketChannel.getRemoteAddress();
             socketChannel.close();
 //            connectionKey.cancel();
-            System.out.println(LocalDateTime.now()+": "+socketAddress+" close");
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": "+socketAddress+" close");
             socketAddress = null;
         } catch (IOException e) {
-            System.out.println(LocalDateTime.now()+": "+socketAddress+" close error");
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": "+socketAddress+" close error");
             e.printStackTrace();
         }
     }

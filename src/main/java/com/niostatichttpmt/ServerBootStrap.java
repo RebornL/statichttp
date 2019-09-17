@@ -26,7 +26,7 @@ public class ServerBootStrap {
             serverSocketChannel.socket().bind(localAddress);
             Boss nextBoss = selectorRunnablePool.nextBoss();
             nextBoss.registerAcceptChannelTask(serverSocketChannel);
-            System.out.println(LocalDateTime.now()+": 静态资源服务器正在运行，"+localAddress);
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 静态资源服务器正在运行，"+localAddress);
 
         } catch (IOException e) {
             e.printStackTrace();

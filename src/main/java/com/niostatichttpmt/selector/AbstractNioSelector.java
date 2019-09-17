@@ -1,9 +1,12 @@
 package com.niostatichttpmt.selector;
 
 import com.niostatichttpmt.pool.NioSelectorRunnablePool;
+import sun.util.resources.LocaleData;
 
 import java.io.IOException;
 import java.nio.channels.Selector;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
@@ -70,13 +73,16 @@ public abstract class AbstractNioSelector implements Runnable {
 
     // 欢迎线程和工作线程各自添加不同的线程，再将Selector唤醒
     protected final void registerTask(Runnable task) {
+        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": add the task to the taskQueue");
         taskQueue.add(task);
         Selector selector = this.selector;
         if (selector != null) {
             if (wakeUp.compareAndSet(false, true)) {
+                System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": selector wake up");
                 selector.wakeup();
             }
         } else {
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": remove the task from the taskQueue");
             taskQueue.remove(task);
         }
     }
@@ -92,8 +98,13 @@ public abstract class AbstractNioSelector implements Runnable {
             if (task == null) {
                 break;
             }
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": run task from the taskQueue");
             // 直接调用任务中要做的事即可，不需要start调用线程去处理
             task.run();
         }
+    }
+
+    public String getThreadName() {
+        return threadName;
     }
 }

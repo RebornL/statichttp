@@ -30,8 +30,8 @@ public class Request {
             while ((header = reader.readLine()).length() != 0) {
                 String[] headerKV = header.split(":");
                 if (headerKV.length > 0) {
-                    req.put(headerKV[0], headerKV[1].strip());
-                    if (headerKV[0].equals("If-None-Match")) System.out.println(headerKV[1].strip());
+                    req.put(headerKV[0], headerKV[1].trim());
+                    if (headerKV[0].equals("If-None-Match")) System.out.println(headerKV[1].trim());
                 }
             }
         } catch (IOException e) {

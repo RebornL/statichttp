@@ -26,20 +26,26 @@ public class Request {
         ByteBuffer readBuff = ByteBuffer.allocate(1024);
         readBuff.clear();
         String request = "";
-        int readByte = 0;
-        while ((readByte = socketChannel.read(readBuff)) > 0) {
+        int readByte = socketChannel.read(readBuff);
+        while (readByte > 0) {
             readBuff.flip();
             request += Property.CHARSET.decode(readBuff).toString();
             readBuff.clear();
+            try {
+                readByte = socketChannel.read(readBuff);
+            } catch (Exception e) {
+                System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": " + e.getMessage());
+                socketChannel.close();
+                throw new IOException("读取Request信息异常");
+            }
         }
         if (request.length() <= 0) {
-            System.out.println(LocalDateTime.now()+": 客户端连接不成功，直接断开");
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 客户端连接不成功，直接断开");
             socketChannel.close();
-            return;
+            throw new IOException("客户端连接失败");
         }
         String[] requestHeader = request.split("\r\n");
         this.uri = ParseUri(requestHeader[0]);
-        assert uri != null;
         this.suffix = GetSuffix(uri);
         // 读取所有浏览器发送过来的请求参数头部的所有信息
         for (int i = 1; i < requestHeader.length; i++) {

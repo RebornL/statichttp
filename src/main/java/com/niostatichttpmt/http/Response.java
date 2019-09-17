@@ -34,7 +34,7 @@ public class Response {
             byteBuffer.flip();
             if(socketChannel.write(byteBuffer) <= 0) {
                 System.out.println(byteBuffer.limit());
-                System.out.println(LocalDateTime.now()+": 客户端关闭连接，无法写入数据");
+                System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 客户端关闭连接，无法写入数据");
 //                socketChannel.close();
                 break;
             }
@@ -52,15 +52,25 @@ public class Response {
     }
 
     public void response304() throws IOException {
-        socketChannel.write(ByteBuffer.wrap("HTTP/1.1 304 Not Modified\r\n".getBytes()));
-        socketChannel.write(ByteBuffer.wrap(("Connection: close\r\n").getBytes()));
+        if (CheckSocketChannel(socketChannel)) {
+            socketChannel.write(ByteBuffer.wrap("HTTP/1.1 304 Not Modified\r\n".getBytes()));
+            socketChannel.write(ByteBuffer.wrap(("Connection: close\r\n").getBytes()));
+        }
     }
 
     public void Response404() throws IOException {
-        socketChannel.write(ByteBuffer.wrap("HTTP/1.1 404 NOTFOUND\r\n".getBytes()));
-        socketChannel.write(ByteBuffer.wrap("Content-Type:text/html;charset=UTF-8\r\n".getBytes()));
-        socketChannel.write(ByteBuffer.wrap(("Connection: close\r\n").getBytes()));
-        socketChannel.write(ByteBuffer.wrap(("\r\n").getBytes()));
-        socketChannel.write(ByteBuffer.wrap(("该资源在服务器中不存在").getBytes()));
+        if (CheckSocketChannel(socketChannel)) {
+            socketChannel.write(ByteBuffer.wrap("HTTP/1.1 404 NOTFOUND\r\n".getBytes()));
+            socketChannel.write(ByteBuffer.wrap("Content-Type:text/html;charset=UTF-8\r\n".getBytes()));
+            socketChannel.write(ByteBuffer.wrap(("Connection: close\r\n").getBytes()));
+            socketChannel.write(ByteBuffer.wrap(("\r\n").getBytes()));
+            socketChannel.write(ByteBuffer.wrap(("该资源在服务器中不存在").getBytes()));
+        }
+    }
+
+    public static boolean CheckSocketChannel(SocketChannel socketChannel) {
+        if (socketChannel.isOpen()) return true;
+        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": socketChannel is closed");
+        return false;
     }
 }

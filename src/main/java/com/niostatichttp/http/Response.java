@@ -32,9 +32,9 @@ public class Response {
 
         while (fileChannel.read(byteBuffer) > 0) {
             byteBuffer.flip();
-            if(socketChannel.write(byteBuffer) <= 0) {
+            if(socketChannel.write(byteBuffer) < 0) {
                 System.out.println(byteBuffer.limit());
-                System.out.println(LocalDateTime.now()+": 客户端关闭连接，无法写入数据");
+                System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 客户端关闭连接，无法写入数据");
 //                socketChannel.close();
                 break;
             }

@@ -5,6 +5,7 @@ import com.niostatichttpmt.pool.NioSelectorRunnablePool;
 import java.io.IOException;
 import java.nio.channels.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -41,6 +42,7 @@ public class NioServerBoss extends AbstractNioSelector implements Boss {
     // 这个方法会阻塞，直至有链接进来
     @Override
     protected int select(Selector selector) throws IOException {
+        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": boss thread waiting and receiving ...");
         return selector.select();
     }
 
@@ -48,6 +50,7 @@ public class NioServerBoss extends AbstractNioSelector implements Boss {
     protected void process(Selector selector) throws IOException {
         Set<SelectionKey> selectionKeys = selector.selectedKeys();
         if (selectionKeys.isEmpty()) {
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": boss thread -> no selectedKeys");
             return;
         }
 
@@ -61,10 +64,10 @@ public class NioServerBoss extends AbstractNioSelector implements Boss {
 //            key.attach(handler);
             Worker nextWorker = getSelectorRunnablePool().nextWorker();
             // 将其注册到任务队列中
+            System.out.println("<===================================================================>");
+            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 新客户端连进来："+channel.getRemoteAddress());
             nextWorker.registerNewChannelTask(channel);
-            System.out.println(
-                    "<===================================================================>");
-            System.out.println(LocalDateTime.now()+": 新客户端连进来："+channel.getRemoteAddress());
+
         }
     }
 }

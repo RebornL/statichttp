@@ -34,7 +34,7 @@ public class HttpServer {
         Selector selector = Selector.open();
         ssc.register(selector, SelectionKey.OP_ACCEPT);
 
-        System.out.println(LocalDateTime.now()+": Http Server start at "+this.hostname+":"+this.port);
+        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": Http Server start at "+this.hostname+":"+this.port);
         while (isRunning) {
 
             int nReady = selector.select();
@@ -46,16 +46,16 @@ public class HttpServer {
                 it.remove();
 
                 if (key.isAcceptable()) {
-                    System.out.println(LocalDateTime.now() + ": com.niostatichttpmt accept");
+                    System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": com.niostatichttpmt accept");
                     SocketChannel socketChannel = ssc.accept();
                     socketChannel.configureBlocking(false);
                     socketChannel.register(selector, SelectionKey.OP_READ);
-                    System.out.println(LocalDateTime.now() + ": "+ socketChannel.getRemoteAddress().toString().substring(1) + " link in");
+                    System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": "+ socketChannel.getRemoteAddress().toString().substring(1) + " link in");
                     SelectionKey connectionKey = socketChannel.register(selector, SelectionKey.OP_READ);
                     connectionKey.attach(new HttpHandler(socketChannel, connectionKey));
                 } else if (key.isReadable()) {
                     SocketChannel socketChannel = (SocketChannel) key.channel();
-                    System.out.println(LocalDateTime.now() + ": read from "+ socketChannel.getRemoteAddress());
+                    System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName() + ": read from "+ socketChannel.getRemoteAddress());
                     HttpHandler handler = (HttpHandler)key.attachment();
                     handler.handlerRequest();
                     if (handler.getUri().equals(SHUTDOWN_COMMAND)) {
@@ -66,7 +66,7 @@ public class HttpServer {
 
                 } else if (key.isWritable()) {
                     SocketChannel socketChannel = (SocketChannel) key.channel();
-                    System.out.println(LocalDateTime.now()+": send static file to "+socketChannel.getRemoteAddress());
+                    System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": send static file to "+socketChannel.getRemoteAddress());
                     HttpHandler handler = (HttpHandler)key.attachment();
                     handler.handlerResponse();
                     handler.close();
@@ -76,7 +76,7 @@ public class HttpServer {
         }
         ssc.close();
         selector.close();
-        System.out.println(LocalDateTime.now()+": http com.niostatichttpmt stop");
+        System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": http com.niostatichttpmt stop");
     }
 
 }

@@ -10,10 +10,10 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 線程调度类
+ *
  * @author Reborn
- */ /*
-* 调度类
-* */
+ */
 public class NioSelectorRunnablePool {
     // Boss和Worker数组
     private final AtomicInteger bossIndex = new AtomicInteger();

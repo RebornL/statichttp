@@ -22,7 +22,7 @@ public class Request {
 //        try {
 //            parse();
 //        } catch (IOException e) {
-//            System.out.println(LocalDateTime.now()+": 解析头部参数出错");
+//            System.out.println(LocalDateTime.now() + " " + Thread.currentThread().getName()+": 解析头部参数出错");
 //            e.printStackTrace();
 //        }
     }
